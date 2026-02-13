@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FORMULARIO EXTRA SEGURO</title>
+<link rel="stylesheet" href="estilo.css" />
+</head>
+
+<body>
+<div id="escalado">
+<div id="contenidoPDF">
+
+<div class="header">
+<img src="Cars.JPG" class="logo" />
+</div>
+
+<h2>FORMULARIO EXTRA SEGURO</h2>
+
+<div class="datos">
+<div class="contenedor-izquierda">
+
+<form id="dataForm">
+
+<div class="fila-formulario">
+<div class="form-group">
+<label>Taller N°: <input type="text" id="taller" required></label>
+<label>Serie y N°: <input type="text" id="serieNumero" required></label>
+</div>
+</div>
+
+</form>
+
+<div class="canvas-section">
+<canvas id="canvas" width="700" height="350"></canvas>
+<button type="button" onclick="clearCanvas()">Limpiar Dibujo</button>
+</div>
+
+</div>
+
+<form class="columna-derecha">
+<label>Fecha: <input type="date" id="fecha" required></label>
+
+<label>Siniestro:
+<input id="siniestro1" required>
+-
+Año:
+<input id="siniestro2" pattern="\d{4}" required>
+</label>
+
+<label>¿Dificulta visual?:
+<input id="dificultadVisual">
+</label>
+
+</form>
+</div>
+
+<div class="texto">
+<h3>SE INFORMAN RUBROS CUYOS PORCENTAJES NO SE TENDRAN EN CUENTA</h3>
+</div>
+
+<table id="tablaPiezas1">
+<thead><tr><th>PIEZA</th><th>CHAPA</th><th>PINTURA</th></tr></thead>
+<tbody>
+<tr>
+<td>GUARDABARRO DER</td>
+<td><input></td>
+<td><input></td>
+</tr>
+</tbody>
+</table>
+
+<div class="firma">
+<label>POR CARS: <input id="QUIEN" required></label>
+</div>
+
+<div style="text-align:center;margin:30px;">
+<button id="btnEnviar">Generar PDF Editable</button>
+</div>
+
+</div>
+</div>
+
+<script>
+/* =========================
+   CANVAS
+========================= */
+
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
+
+let drawing = false
+
+function clearCanvas(){
+ctx.clearRect(0,0,canvas.width,canvas.height)
+}
+
+canvas.onmousedown = e=>{
+drawing=true
+ctx.moveTo(e.offsetX,e.offsetY)
+}
+
+canvas.onmousemove = e=>{
+if(!drawing) return
+ctx.lineTo(e.offsetX,e.offsetY)
+ctx.stroke()
+}
+
+canvas.onmouseup = ()=> drawing=false
+
+
+/* =========================
+   RECOLECTAR TABLAS
+========================= */
+
+function leerTabla(id){
+const filas = document.querySelectorAll(`#${id} tbody tr`)
+const data=[]
+filas.forEach(tr=>{
+const tds = tr.querySelectorAll("td")
+data.push({
+pieza: tds[0].innerText,
+chapa: tds[1].querySelector("input").value,
+pintura: tds[2].querySelector("input").value
+})
+})
+return data
+}
+
+
+/* =========================
+   ENVÍO AL BACKEND
+========================= */
+
+document.getElementById("btnEnviar").onclick = async ()=>{
+
+const datos = {
+
+taller: taller.value,
+serieNumero: serieNumero.value,
+fecha: fecha.value,
+siniestro1: siniestro1.value,
+siniestro2: siniestro2.value,
+dificultadVisual: dificultadVisual.value,
+quien: QUIEN.value,
+
+tabla1: leerTabla("tablaPiezas1"),
+
+canvas: canvas.toDataURL("image/png")
+
+}
+
+if(!datos.taller || !datos.serieNumero){
+alert("Complete campos obligatorios")
+return
+}
+
+try{
+
+const res = await fetch("/generate-pdf-editable",{
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+body: JSON.stringify(datos)
+})
+
+const json = await res.json()
+
+if(res.ok){
+alert("PDF editable generado y subido correctamente")
+console.log(json.url)
+}else{
+alert("Error backend: "+json.error)
+}
+
+}catch(err){
+alert("Error conexión backend")
+}
+
+}
+</script>
+
+</body>
+</html>
