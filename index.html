@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FORMULARIO EXTRA SEGURO</title>
-<link rel="stylesheet" href="estilo.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FORMULARIO EXTRA SEGURO</title>
+  <link rel="stylesheet" href="estilo.css" />
 </head>
 
 <body>
@@ -12,7 +12,7 @@
 <div id="contenidoPDF">
 
 <div class="header">
-<img src="Cars.JPG" class="logo" />
+  <img src="Cars.JPG" alt="Logo Cars" class="logo" />
 </div>
 
 <h2>FORMULARIO EXTRA SEGURO</h2>
@@ -21,162 +21,219 @@
 <div class="contenedor-izquierda">
 
 <form id="dataForm">
-
 <div class="fila-formulario">
 <div class="form-group">
-<label>Taller N°: <input type="text" id="taller" required></label>
-<label>Serie y N°: <input type="text" id="serieNumero" required></label>
+<label><span>Taller N°:</span> <input type="text" id="taller" required /></label>
+<label><span>Serie y N°:</span> <input type="text" id="serieNumero" required /></label>
 </div>
 </div>
-
 </form>
 
+<div class="imagen-y-campos">
 <div class="canvas-section">
 <canvas id="canvas" width="700" height="350"></canvas>
-<button type="button" onclick="clearCanvas()">Limpiar Dibujo</button>
+<button class="clear-button" type="button" onclick="clearCanvas()">Limpiar Dibujo</button>
+</div>
 </div>
 
 </div>
 
 <form class="columna-derecha">
-<label>Fecha: <input type="date" id="fecha" required></label>
+<div class="fecha">
+<label><span>Fecha:</span> <input type="date" id="fecha" required /></label>
+</div>
 
-<label>Siniestro:
-<input id="siniestro1" required>
--
-Año:
-<input id="siniestro2" pattern="\d{4}" required>
+<div class="stro">
+<label>
+<span>Siniestro:</span>
+<input type="text" id="siniestro1" required />
+<span>- Año:</span>
+<input type="text" id="siniestro2" pattern="\d{4}" required />
 </label>
 
-<label>¿Dificulta visual?:
-<input id="dificultadVisual">
+<label>
+<span>¿Dificulta visual?:</span>
+<input type="text" id="dificultadVisual" />
 </label>
-
+</div>
 </form>
+
 </div>
 
 <div class="texto">
-<h3>SE INFORMAN RUBROS CUYOS PORCENTAJES NO SE TENDRAN EN CUENTA</h3>
+<h3>SE INFORMAN RUBROS CUYOS PORCENTAJES NO SE TENDRAN EN CUENTA EN FUTURAS RECLAMACIONES</h3>
 </div>
 
-<table id="tablaPiezas1">
-<thead><tr><th>PIEZA</th><th>CHAPA</th><th>PINTURA</th></tr></thead>
-<tbody>
-<tr>
-<td>GUARDABARRO DER</td>
-<td><input></td>
-<td><input></td>
-</tr>
-</tbody>
-</table>
+ <div class="tablas-piezas">
+        <table id="tablaPiezas1">
+        <thead>
+          <tr>
+            <th>PIEZA / ACCESORIOS</th>
+            <th>CHAPA</th>
+            <th>PINTURA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>GUARDABARRO DEL DER</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>GUARDABARRO DEL IZQ</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>CARETA</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PARAGOLPE DELANTERO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>ESPEJO DER</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>ESPEJO IZQ</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>SEMIOPTICA DERECHA</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>SEMIOPTICA IZQUIERDA</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PUERTA DELANTERA DERECHA</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PUERTA DELANTERA IZQUIERDA</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PUERTA TRASERA DERECHA</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PUERTA TRASERA IZQUIERDA</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PORTON TRAS DER</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PORTON TRAS IZQ</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td><input class="autocomplete" type="text" autocomplete="off" spellcheck="false" placeholder=""/></td><td><input type="text"/></td><td><input type="text" /></td></tr>
+        </tbody>
+      </table>
+
+      <table id="tablaPiezas2">
+        <thead>
+          <tr>
+            <th>PIEZA / ACCESORIOS</th>
+            <th>CHAPA</th>
+            <th>PINTURA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>ESPOLON</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>GUARDABARRO TRAS DER</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>GUARDABARRO TRAS IZQ</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>TECHO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PARABRISAS</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PANEL TRASERO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>TAPA VALIJA / PORTON TRAS.</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>PARAGOLPE TRASERO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>ZOCALO DERECHO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>ZOCALO IZQUIERDO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>LATERAL DERECHO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>LATERAL IZQUIERDO</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>FARO TRAS DER</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td>FARO TRAS IZQ</td><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text" /></td></tr>
+          <tr><td><input type="text" class="autocomplete" placeholder="" autocomplete="off"/></td><td><input type="text"/></td><td><input type="text" /></td></tr>
+        </tbody>
+      </table>
+      
+      </div>
 
 <div class="firma">
-<label>POR CARS: <input id="QUIEN" required></label>
+<label><span>POR CARS:</span> <input type="text" id="QUIEN" required /></label>
 </div>
 
 <div style="text-align:center;margin:30px;">
-<button id="btnEnviar">Generar PDF Editable</button>
+<button class="boton" id="btnGenerar">Generar PDF Editable</button>
 </div>
 
 </div>
 </div>
+
+<!-- ================= CANVAS ================= -->
 
 <script>
-/* =========================
-   CANVAS
-========================= */
-
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
-
-let drawing = false
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let drawing = false;
+window.userHasDrawn = false;
 
 function clearCanvas(){
-ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.clearRect(0,0,canvas.width,canvas.height);
+window.userHasDrawn = false;
 }
 
 canvas.onmousedown = e=>{
-drawing=true
-ctx.moveTo(e.offsetX,e.offsetY)
-}
+drawing=true;
+ctx.moveTo(e.offsetX,e.offsetY);
+};
 
 canvas.onmousemove = e=>{
-if(!drawing) return
-ctx.lineTo(e.offsetX,e.offsetY)
-ctx.stroke()
+if(!drawing) return;
+ctx.lineTo(e.offsetX,e.offsetY);
+ctx.stroke();
+window.userHasDrawn = true;
+};
+
+canvas.onmouseup = ()=> drawing=false;
+</script>
+
+<!-- ================= ESCALADO ================= -->
+
+<script>
+function escalarPagina() {
+  const baseWidth = 1200;
+  const escala = Math.min(window.innerWidth / baseWidth, 1);
+  const escalado = document.getElementById('escalado');
+  if (!escalado) return;
+  escalado.style.transform = `scale(${escala})`;
+  escalado.style.transformOrigin = 'top center';
 }
+window.addEventListener('resize', escalarPagina);
+window.addEventListener('load', escalarPagina);
+</script>
 
-canvas.onmouseup = ()=> drawing=false
+<!-- ================= ENVÍO AL BACKEND ================= -->
 
-
-/* =========================
-   RECOLECTAR TABLAS
-========================= */
-
-function leerTabla(id){
-const filas = document.querySelectorAll(`#${id} tbody tr`)
-const data=[]
+<script>
+function leerTabla(tablaId){
+const filas = document.querySelectorAll(`#${tablaId} tbody tr`);
+const data=[];
 filas.forEach(tr=>{
-const tds = tr.querySelectorAll("td")
+const tds = tr.querySelectorAll("td");
+if(tds.length<3) return;
 data.push({
 pieza: tds[0].innerText,
 chapa: tds[1].querySelector("input").value,
 pintura: tds[2].querySelector("input").value
-})
-})
-return data
+});
+});
+return data;
 }
 
-
-/* =========================
-   ENVÍO AL BACKEND
-========================= */
-
-document.getElementById("btnEnviar").onclick = async ()=>{
+document.getElementById("btnGenerar").onclick = async (e)=>{
+e.preventDefault();
 
 const datos = {
-
-taller: taller.value,
-serieNumero: serieNumero.value,
+taller: taller.value.trim(),
+serieNumero: serieNumero.value.trim(),
 fecha: fecha.value,
-siniestro1: siniestro1.value,
-siniestro2: siniestro2.value,
-dificultadVisual: dificultadVisual.value,
-quien: QUIEN.value,
-
+siniestro1: siniestro1.value.trim(),
+siniestro2: siniestro2.value.trim(),
+dificultadVisual: dificultadVisual.value.trim(),
+quien: QUIEN.value.trim(),
 tabla1: leerTabla("tablaPiezas1"),
+tabla2: leerTabla("tablaPiezas2"),
+canvasImage: canvas.toDataURL("image/png")
+};
 
-canvas: canvas.toDataURL("image/png")
-
-}
-
-if(!datos.taller || !datos.serieNumero){
-alert("Complete campos obligatorios")
-return
+if(!datos.taller || !datos.serieNumero || !datos.fecha){
+alert("Complete campos obligatorios");
+return;
 }
 
 try{
-
-const res = await fetch("/generate-pdf-editable",{
+const res = await fetch("https://extra-seguro-backend.onrender.com/generate-pdf-editable",{
 method:"POST",
 headers:{ "Content-Type":"application/json" },
 body: JSON.stringify(datos)
-})
+});
 
-const json = await res.json()
+const json = await res.json();
 
 if(res.ok){
-alert("PDF editable generado y subido correctamente")
-console.log(json.url)
+alert("PDF editable generado correctamente");
+console.log(json);
 }else{
-alert("Error backend: "+json.error)
+alert("Error backend");
 }
 
 }catch(err){
-alert("Error conexión backend")
+alert("Error conexión backend");
 }
-
-}
+};
 </script>
 
 </body>
