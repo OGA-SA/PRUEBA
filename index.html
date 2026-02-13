@@ -135,29 +135,84 @@
 <!-- ================= CANVAS ================= -->
 
 <script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-let drawing = false;
-window.userHasDrawn = false;
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementById("canvas");
+  if (!canvas) return;
 
-function clearCanvas(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-window.userHasDrawn = false;
-}
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  let baseImageData = null;
+  window.userHasDrawn = false;
 
-canvas.onmousedown = e=>{
-drawing=true;
-ctx.moveTo(e.offsetX,e.offsetY);
-};
+  const image = new Image();
+  image.src = "parabrisa.png";
+  image.onload = () => {
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    baseImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  };
 
-canvas.onmousemove = e=>{
-if(!drawing) return;
-ctx.lineTo(e.offsetX,e.offsetY);
-ctx.stroke();
-window.userHasDrawn = true;
-};
+  function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    window.userHasDrawn = false;
+    baseImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  }
+  window.clearCanvas = clearCanvas;
 
-canvas.onmouseup = ()=> drawing=false;
+  let drawing = false;
+
+  function getPos(evt) {
+    const rect = canvas.getBoundingClientRect();
+    const escalaX = canvas.width / rect.width;
+    const escalaY = canvas.height / rect.height;
+
+    const x = evt.touches
+      ? (evt.touches[0].clientX - rect.left) * escalaX
+      : (evt.clientX - rect.left) * escalaX;
+
+    const y = evt.touches
+      ? (evt.touches[0].clientY - rect.top) * escalaY
+      : (evt.clientY - rect.top) * escalaY;
+
+    return { x, y };
+  }
+
+  function startDraw(evt) {
+    evt.preventDefault();
+    drawing = true;
+    const pos = getPos(evt);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  }
+
+  function draw(evt) {
+    if (!drawing) return;
+    evt.preventDefault();
+    const pos = getPos(evt);
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "red";
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    window.userHasDrawn = true;
+  }
+
+  function endDraw(evt) {
+    evt.preventDefault();
+    drawing = false;
+    ctx.beginPath();
+  }
+
+  canvas.addEventListener("mousedown", startDraw);
+  canvas.addEventListener("mousemove", draw);
+  canvas.addEventListener("mouseup", endDraw);
+  canvas.addEventListener("mouseleave", endDraw);
+  canvas.addEventListener("touchstart", startDraw, { passive: false });
+  canvas.addEventListener("touchmove", draw, { passive: false });
+  canvas.addEventListener("touchend", endDraw);
+  canvas.addEventListener("touchcancel", endDraw);
+});
 </script>
 
 <!-- ================= ESCALADO ================= -->
