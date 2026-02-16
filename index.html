@@ -273,7 +273,7 @@ try{
 const res = await fetch("https://extra-seguro-backend.onrender.com/generate-pdf-editable", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(data)
+  body: JSON.stringify(datos)
 })
 
 const json = await res.json();
