@@ -234,60 +234,105 @@ window.addEventListener('load', escalarPagina);
 <!-- ================= ENVÍO AL BACKEND ================= -->
 
 <script>
+
 function leerTabla(tablaId){
+
 const filas = document.querySelectorAll(`#${tablaId} tbody tr`);
+
 const data=[];
+
 filas.forEach(tr=>{
+
 const tds = tr.querySelectorAll("td");
+
 if(tds.length<3) return;
+
 data.push({
-pieza: tds[0].innerText,
+
+pieza: tds[0].querySelector("input")
+      ? tds[0].querySelector("input").value
+      : tds[0].innerText,
+
 chapa: tds[1].querySelector("input").value,
+
 pintura: tds[2].querySelector("input").value
+
 });
+
 });
+
 return data;
+
 }
 
 document.getElementById("btnGenerar").onclick = async (e)=>{
+
 e.preventDefault();
 
 const datos = {
+
 taller: taller.value.trim(),
+
 serieNumero: serieNumero.value.trim(),
+
 fecha: fecha.value,
+
 siniestro1: siniestro1.value.trim(),
+
 siniestro2: siniestro2.value.trim(),
+
 dificultadVisual: dificultadVisual.value.trim(),
+
 quien: QUIEN.value.trim(),
+
 tabla1: leerTabla("tablaPiezas1"),
+
 tabla2: leerTabla("tablaPiezas2"),
+
 canvasImage: canvas.toDataURL("image/png")
+
 };
 
 if(!datos.taller || !datos.serieNumero || !datos.fecha){
+
 alert("Complete campos obligatorios");
+
 return;
+
 }
 
 try{
 
 const res = await fetch("https://extra-seguro-backend.onrender.com/generate-pdf-editable",{
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(datos)
+
+method:"POST",
+
+headers:{ "Content-Type":"application/json" },
+
+body:JSON.stringify(datos)
+
 });
+
+if(!res.ok){
+
+throw new Error("Backend error");
+
+}
 
 const blob = await res.blob();
 
 const url = window.URL.createObjectURL(blob);
 
 const a = document.createElement("a");
+
 a.href = url;
+
 a.download = "extra_seguro.pdf";
 
 document.body.appendChild(a);
+
 a.click();
+
 a.remove();
 
 window.URL.revokeObjectURL(url);
@@ -295,11 +340,12 @@ window.URL.revokeObjectURL(url);
 }catch(e){
 
 console.error("Error generando PDF:",e);
+
 alert("Error generando PDF");
 
 }
-  };
-</script>
 
+};
+</script>
 </body>
 </html>
