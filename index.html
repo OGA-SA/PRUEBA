@@ -313,11 +313,16 @@ body:JSON.stringify(datos)
 
 });
 
-if(!res.ok){
+if (!res.ok) {
 
-throw new Error("Backend error");
+const text = await res.text();
+console.error("❌ Error subiendo a SharePoint:", text);
+
+throw new Error(text);
 
 }
+
+return res.json();
 
 const blob = await res.blob();
 
