@@ -216,7 +216,121 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.addEventListener("touchcancel", endDraw);
 });
 </script>
+  
+<!-- Autocompletar -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
+  const sugerencias = [
+    "PUNTERA P/GOLPE DEL DER", "PUNTERA P/GOLPE DEL IZQ", "SEÑALERO DEL DER",
+    "SEÑALERO DEL IZQ", "PUNTERA P/GOLPE TRAS DER", "PUNTERA P/GOLPE TRAS IZQ",
+    "LUNETA TRASERA", "MOLDURA sup tapa caja", "FRENTE DE CHAPA",
+    "PORTON LATERAL DERECHO", "CHORIZO DE TECHO IZQ"
+  ];
+
+  // 👉 NUEVAS SUGERENCIAS (SOLO PARA POR CARS)
+  const sugerenciasNombres = [
+    "FEDERICO ALBISTUR",
+    "SEBASTIÁN DE ÁVILA",
+    "SANTIAGO DE ÁVILA",
+    "RODRIGO GINI",
+    "ADRIAN FERNANDEZ",
+    "JUAN JOSÉ MECHOSO",
+    "JULIO CASTRO",
+    "FEDERICO PARODI",
+    "GONZALO RODRIGUEZ",
+    "LUCAS CARBALLO",
+    "DANILO MACHADO",
+    "GUILLERMO MENDINA",
+    "SERGIO ALZA",
+    "MATHIAS MONTES DE OCA"
+  ];
+
+  function aplicarAutocompletado(inputAuto) {
+    let ultimaEntrada = "";
+    inputAuto.addEventListener("input", () => {
+      const valor = inputAuto.value.toLowerCase();
+      if (valor.length < ultimaEntrada.length) {
+        ultimaEntrada = valor;
+        return;
+      }
+      const match = sugerencias.find(opcion => opcion.toLowerCase().startsWith(valor));
+      if (match && valor !== match.toLowerCase()) {
+        inputAuto.value = match;
+        inputAuto.setSelectionRange(valor.length, match.length);
+      }
+      ultimaEntrada = valor;
+    });
+  }
+
+  // 👉 NUEVA FUNCIÓN SOLO PARA NOMBRES
+  function aplicarAutocompletadoNombres(inputAuto) {
+    let ultimaEntrada = "";
+    inputAuto.addEventListener("input", () => {
+      const valor = inputAuto.value.toLowerCase();
+      if (valor.length < ultimaEntrada.length) {
+        ultimaEntrada = valor;
+        return;
+      }
+      const match = sugerenciasNombres.find(opcion => opcion.toLowerCase().startsWith(valor));
+      if (match && valor !== match.toLowerCase()) {
+        inputAuto.value = match;
+        inputAuto.setSelectionRange(valor.length, match.length);
+      }
+      ultimaEntrada = valor;
+    });
+  }
+
+  // Aplica autocompletado a tablas (SIN CAMBIOS)
+  document.querySelectorAll(".autocomplete").forEach(aplicarAutocompletado);
+
+  // 👉 APLICA SOLO AL INPUT POR CARS
+  const inputQuien = document.getElementById("QUIEN");
+  if (inputQuien) {
+    aplicarAutocompletadoNombres(inputQuien);
+  }
+
+  function agregarFilaSiEsUltima(input, tablaId) {
+    const tabla = document.getElementById(tablaId);
+    const filas = tabla.querySelectorAll("tbody tr");
+    const ultimaFila = filas[filas.length - 1];
+
+    if (ultimaFila.contains(input)) {
+      const nuevaFila = ultimaFila.cloneNode(true);
+
+      // Limpia los valores y agrega clase "nuevo"
+      nuevaFila.querySelectorAll("input").forEach(input => {
+        input.value = "";
+        input.classList.add("nuevo");
+        if (!input.classList.contains("autocomplete")) {
+          input.classList.add("autocomplete");
+        }
+      });
+
+      // Inserta la nueva fila
+      tabla.querySelector("tbody").appendChild(nuevaFila);
+
+      // Reactiva autocompletado en los inputs clonados
+      nuevaFila.querySelectorAll(".autocomplete").forEach(aplicarAutocompletado);
+    }
+  }
+
+  function inicializarAutofila(tablaId) {
+    const tabla = document.getElementById(tablaId);
+    tabla.addEventListener("input", function (e) {
+      if (e.target.tagName === "INPUT") {
+        agregarFilaSiEsUltima(e.target, tablaId);
+      }
+    });
+  }
+
+  inicializarAutofila("tablaPiezas1");
+  inicializarAutofila("tablaPiezas2");
+
+});
+</script>
+
+  
 <!-- ================= ESCALADO ================= -->
 
 <script>
@@ -296,7 +410,7 @@ canvasImage: canvas.toDataURL("image/png")
 
 if(!datos.taller || !datos.serieNumero || !datos.fecha){
 
-alert("Complete campos obligatorios");
+alert("⚠️ Complete todos los campos antes de generar el PDF.");
 
 return;
 
